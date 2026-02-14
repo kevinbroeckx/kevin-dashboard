@@ -1,10 +1,6 @@
-<div class="panel flex flex-col" style="min-height: 550px;">
-    <div class="panel-header mb-2">
-        <h2 class="panel-title">Kanban Board</h2>
-    </div>
-
+<div class="w-full h-full flex flex-col">
     {{-- Add Task Form --}}
-    <form wire:submit="addTask" class="flex gap-2 mb-5">
+    <form wire:submit="addTask" class="flex gap-2 mb-6">
         <input
             wire:model="newTask"
             type="text"
@@ -25,7 +21,7 @@
     </form>
 
     {{-- Kanban Columns --}}
-    <div class="flex gap-4 flex-1 overflow-x-auto">
+    <div class="flex gap-4 flex-1 min-h-0 overflow-x-auto">
         @foreach(['todo' => 'To Do', 'doing' => 'In Progress', 'done' => 'Done'] as $key => $label)
             <div class="flex-1 min-w-[320px] flex flex-col">
                 {{-- Column Header --}}
