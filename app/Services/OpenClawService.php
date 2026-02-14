@@ -62,21 +62,31 @@ class OpenClawService
 
     /**
      * Get session status.
+     * Returns the 'details' portion of the response.
      */
     public function getSessionStatus(?string $sessionKey = null): ?array
     {
-        return $this->invokeTool('session_status', [], $sessionKey);
+        $response = $this->invokeTool('session_status', [], $sessionKey);
+        if ($response && isset($response['result']['details'])) {
+            return $response['result']['details'];
+        }
+        return null;
     }
 
     /**
      * List sessions.
+     * Returns the 'details' portion of the response.
      */
     public function listSessions(int $limit = 10, int $messageLimit = 3): ?array
     {
-        return $this->invokeTool('sessions_list', [
+        $response = $this->invokeTool('sessions_list', [
             'limit' => $limit,
             'messageLimit' => $messageLimit,
         ]);
+        if ($response && isset($response['result']['details'])) {
+            return $response['result']['details'];
+        }
+        return null;
     }
 
     /**
@@ -93,10 +103,15 @@ class OpenClawService
 
     /**
      * List cron jobs.
+     * Returns the 'details' portion of the response.
      */
     public function listCronJobs(): ?array
     {
-        return $this->invokeTool('cron', ['action' => 'list']);
+        $response = $this->invokeTool('cron', ['action' => 'list']);
+        if ($response && isset($response['result']['details'])) {
+            return $response['result']['details'];
+        }
+        return null;
     }
 
     /**
@@ -105,6 +120,41 @@ class OpenClawService
     public function getCronStatus(): ?array
     {
         return $this->invokeTool('cron', ['action' => 'status']);
+    }
+
+    /**
+     * Execute a cron job immediately by ID.
+     */
+    public function executeCronJob(string $jobId): ?array
+    {
+        try {
+            $response = $this->invokeTool('cron', [
+                'action' => 'trigger',
+                'jobId' => $jobId,
+            ]);
+            return $response;
+        } catch (\Exception $e) {
+            Log::error('Failed to execute cron job', [
+                'jobId' => $jobId,
+                'error' => $e->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Restart the OpenClaw gateway.
+     */
+    public function restartGateway(): ?array
+    {
+        try {
+            return $this->invokeTool('gateway', ['action' => 'restart']);
+        } catch (\Exception $e) {
+            Log::error('Failed to restart gateway', [
+                'error' => $e->getMessage(),
+            ]);
+            return null;
+        }
     }
 
     /**

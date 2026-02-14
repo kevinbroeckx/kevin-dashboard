@@ -8,13 +8,15 @@
 - [x] 5 panel components (status, schedule, messenger, activity, kanban)
 - [x] Kanban with full CRUD + file persistence
 
-## Phase 2: OpenClaw API Integration 🔧
-- [ ] Create OpenClaw API service class
-- [ ] Status Panel → real data from gateway API (model, uptime, session info, usage/cost)
-- [ ] Schedule Panel → real cron jobs from gateway (list, next fire, run history)
-- [ ] Activity Feed → session history / tool call logs
-- [ ] Messenger → send messages via sessions API, receive responses
-- [ ] Auth middleware (simple token or local-only)
+## Phase 2: OpenClaw API Integration ✅
+- [x] Create OpenClaw API service class (with proper response parsing)
+- [x] Status Panel → real data from gateway API (model, session info, token usage)
+- [x] Schedule Panel → real cron jobs from gateway (name, schedule, next fire time, status)
+- [x] Activity Feed → session history with tool calls and messages
+- [x] Messenger → send messages via chat completions API
+- [x] Sessions List Panel → show all active sessions with last messages
+- [x] Memory Viewer Panel → browse MEMORY.md and daily memory files
+- [x] Updated dashboard layout (4-panel header row, content row, full-width kanban)
 
 ## Phase 3: Real-Time & Polish
 - [ ] WebSocket or SSE for live activity feed

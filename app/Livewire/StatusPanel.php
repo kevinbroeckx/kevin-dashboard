@@ -22,16 +22,30 @@ class StatusPanel extends Component
         // Try to get real data
         $sessionStatus = $api->getSessionStatus();
 
-        if ($sessionStatus && isset($sessionStatus['result'])) {
-            $result = $sessionStatus['result'];
+        if ($sessionStatus) {
             $this->connected = true;
+            // Parse the statusText to extract key info
+            $statusText = $sessionStatus['statusText'] ?? '';
+            
+            // Extract model from status text (e.g., "?? Model: anthropic/claude-haiku-4-5")
+            $model = 'unknown';
+            if (preg_match('/Model:\s*([^\s]+)/', $statusText, $m)) {
+                $model = $m[1];
+            }
+            
+            // Extract token usage (e.g., "?? Tokens: 22 in / 596 out")
+            $tokensInfo = '-';
+            if (preg_match('/Tokens:\s*([^#]+)/i', $statusText, $m)) {
+                $tokensInfo = trim($m[1]);
+            }
+            
             $this->status = [
                 'state' => 'online',
-                'model' => $result['model'] ?? 'unknown',
-                'session' => $result['session'] ?? 'main',
-                'uptime' => $result['uptime'] ?? '-',
-                'usage' => $result['usage'] ?? null,
-                'cost' => $result['cost'] ?? null,
+                'model' => $model,
+                'session' => $sessionStatus['sessionKey'] ?? 'main',
+                'uptime' => '-',
+                'usage' => $tokensInfo,
+                'cost' => null,
                 'host' => gethostname(),
                 'php' => PHP_VERSION,
                 'laravel' => app()->version(),
@@ -40,7 +54,7 @@ class StatusPanel extends Component
             $this->connected = $api->isReachable();
             $this->status = [
                 'state' => $this->connected ? 'online' : 'offline',
-                'model' => 'claude-opus-4-6',
+                'model' => 'unknown',
                 'session' => 'main',
                 'uptime' => '-',
                 'usage' => null,

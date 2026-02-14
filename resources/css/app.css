@@ -25,3 +25,109 @@
     --color-danger: #ef4444;
     --color-info: #3b82f6;
 }
+
+/* Smooth transitions for Livewire updates */
+[wire\:loading] {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+/* Status badges with smooth transitions */
+.status-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all duration-200;
+}
+
+.status-badge.success {
+    @apply bg-[var(--color-success)]/20 text-[var(--color-success)];
+}
+
+.status-badge.warning {
+    @apply bg-[var(--color-warning)]/20 text-[var(--color-warning)];
+}
+
+.status-badge.danger {
+    @apply bg-[var(--color-danger)]/20 text-[var(--color-danger)];
+}
+
+.status-badge.info {
+    @apply bg-[var(--color-info)]/20 text-[var(--color-info)];
+}
+
+/* Panel Styling - Improved Readability */
+.panel {
+    @apply rounded-xl border border-white/10 bg-[var(--color-dark-800)] p-5 shadow-lg transition-all duration-200;
+}
+
+.panel-header {
+    @apply mb-4 border-b border-white/5 pb-3;
+}
+
+.panel-header h2 {
+    @apply text-lg font-semibold text-white tracking-tight;
+}
+
+.panel-title {
+    @apply text-base font-semibold text-white tracking-tight;
+}
+
+.panel-subtitle {
+    @apply text-xs text-gray-500 uppercase tracking-wide font-medium;
+}
+
+.panel:hover {
+    @apply border-white/20 shadow-xl;
+}
+
+/* Scrollable content areas */
+.panel-content {
+    @apply max-h-[500px] overflow-y-auto pr-2;
+}
+
+.panel-content::-webkit-scrollbar {
+    @apply w-1.5;
+}
+
+.panel-content::-webkit-scrollbar-track {
+    @apply bg-white/5 rounded;
+}
+
+.panel-content::-webkit-scrollbar-thumb {
+    @apply bg-white/20 rounded hover:bg-white/30;
+}
+
+/* Button hover effects */
+button {
+    @apply transition-all duration-200;
+}
+
+button:not(:disabled):hover {
+    @apply transform -translate-y-0.5;
+}
+
+button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+/* Modal animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal {
+    animation: slideIn 150ms ease-out;
+}
+
+/* Error boundaries and fallbacks */
+.error-boundary {
+    @apply rounded-lg border border-[var(--color-danger)]/30 bg-[var(--color-danger)]/10 p-3;
+}
+
+.error-boundary-text {
+    @apply text-sm text-[var(--color-danger)];
+}
